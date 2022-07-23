@@ -1,7 +1,8 @@
 void setup()
 {
     Serial.begin(2400);
-    Serial.print("Hello World!");
+    Serial.print("Hello World!\n");
+    Serial.print("Hello World!\n");
 }
 
  
@@ -11,8 +12,9 @@ void loop()
 {
     if(Serial.available()>0)
     {
+        Serial.print("PASSED");
         input=Serial.read();
-        Serial.print(input);
+        Serial.println(input, DEC);
         if(input==11){
           Serial.print("ACK");
         }
