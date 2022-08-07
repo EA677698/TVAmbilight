@@ -1,85 +1,83 @@
+//
+// Created by eafc6 on 7/31/2022.
+//
+
+#include <ws2811.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <signal.h>
 
-#include <fcntl.h>
-#include <termios.h>
-#include <cstdlib>
-#include "global.h"
+#define TARGET_FREQ WS2811_TARGET_FREQ
+#define LED_COUNT 300
+#define GPIO_PIN 18
+#define DMA 10
+#define RGB_ORDER WS2811_STRIP_GRB
+#define TV_BOTTOM_LEFT_INDEX tv_layout[0]
+#define TV_LEFT_INDEX tv_layout[1]
+#define TV_TOP_INDEX tv_layout[2]
+#define TV_RIGHT_INDEX tv_layout[3]
+#define TV_BOTTOM_RIGHT_INDEX tv_layout[4]
 
-using namespace std;
+ws2811_t led_strip =
+        {
+        .freq = WS2811_TARGET_FREQ,
+        .dmanum = DMA,
+        .channel =
+                {
+                [0] =
+                        {
+                        .gpionum = GPIO_PIN,
+                        .invert = 0,
+                        .count = LED_COUNT,
+                        .strip_type = RGB_ORDER,
+                        .brightness = 255,
+                        },
+                [1] =
+                        {
+                        .gpionum = 0,
+                        .invert = 0,
+                        .count = 0,
+                        .brightness = 0,
+                        },
+                },
 
-int send_data_to_arduino(int &arduino, char *data, char datatype, int size) {
-    char format[size + 1];
-    format[0] = datatype;
-    for(int i = 0; i<size; i++){
-        format[i+1] = data[i];
-    }
-    printf("%s\n",format);
-    int bytes = write(arduino, format, size+1);
-    printf("%d bytes written",bytes);
-    return 0;
+
+        };
+
+int tv_layout[] = {0,0,0,0,0};
+
+void sig_kill_handler(int signum){
+    printf("Process closing...");
+    ws2811_fini(&led_strip);
+    printf("Process ended");
 }
 
-int connection_checker(int &arduino){
-    char buffer[256];
-    // @TODO check for acknowledgement and return based on that
-    char acknowledgement[1];
-    acknowledgement[0] = ACK;
-    //send_data_to_arduino(arduino, acknowledgement, 'c');
-    printf(YES_CONNECTION);
-    int result;
-    while (!(result = read(arduino, &buffer, sizeof(buffer))));
-    printf("%s\n",buffer);
-    if(buffer!="ACK"){
-        return 1;
-    }
-    printf("%s\n",buffer);
 
-    return 0;
+void setBrightness(int b)
+{
+    if(b>0 && b<256) {
+        led_strip.channel[0].brightness = b;
+    } else{
+        printf("Error: integer must be within range [0-255]");
+    }
+    return;
 }
 
+void setPixelColorRGB(int pixel, int r, int g, int b)
+{
+    if(b>0 && b<256) {
+        if(pixel<LED_COUNT && pixel >=0) {
+            led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
+        } else{
+            printf("Error: pixel must be within range [0-%d]",LED_COUNT);
+        }
+    } else{
+        printf("Error: color integer must be within range [0-255]");
+    }
+    return;
+}
 
-int main() {
-    int arduino = open("/dev/ttyS6", O_RDWR);
-    struct termios tty;
-    if(arduino < 0){
-        perror(NO_FILE);
-        perror(NO_CONNECTION);
-        exit(EXIT_FAILURE);
-    }
-    if(tcgetattr(arduino, &tty) != 0) {
-        perror(GENERIC_ERROR);
-    }
-    tty.c_cflag &= ~PARENB;
-    tty.c_cflag &= ~CSTOPB;
-    tty.c_cflag &= ~CSIZE;
-    tty.c_cflag |= CS8;
-    tty.c_cflag &= ~CRTSCTS;
-    tty.c_cflag |= CREAD | CLOCAL;
-    tty.c_lflag &= ~ICANON;
-    tty.c_lflag &= ~ECHO;
-    tty.c_lflag &= ~ECHOE;
-    tty.c_lflag &= ~ECHONL;
-    tty.c_lflag &= ~ISIG;
-    tty.c_iflag &= ~(IXON | IXOFF | IXANY);
-    tty.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL);
-    tty.c_oflag &= ~OPOST;
-    tty.c_oflag &= ~ONLCR;
-    tty.c_cc[VTIME] = 100;
-    tty.c_cc[VMIN] = 0;
-    // Baud Rate Controls
-    cfsetispeed(&tty, B1200);
-    cfsetospeed(&tty, B1200);
-    // End Baud Rate Controls
-    if (tcsetattr(arduino, TCSANOW, &tty) != 0) {
-        perror(GENERIC_ERROR);
-    }
-//    if(connection_checker(arduino)){
-//        perror(GENERIC_ERROR);
-//        exit(EXIT_FAILURE);
-//    }
-    char test[] = {'H','E','L','L','O','\n'};
-    send_data_to_arduino(arduino,test,'c',6);
-    close(arduino);
+int main(){
+    ws2811_init(&led_strip);
+    signal(SIGKILL,sig_kill_handler);
     return 0;
 }
