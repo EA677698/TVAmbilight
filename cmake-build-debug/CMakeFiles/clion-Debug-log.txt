@@ -1,0 +1,21 @@
+/snap/clion/222/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/222/bin/ninja/linux/x64/ninja -G Ninja -S /home/erick/Desktop/TVAmbilight -B /home/erick/Desktop/TVAmbilight/cmake-build-debug
+CMake Warning at CMakeLists.txt:12 (find_package):
+  By not providing "Findrpi_ws281x.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "rpi_ws281x", but CMake did not find one.
+
+  Could not find a package configuration file provided by "rpi_ws281x" with
+  any of the following names:
+
+    rpi_ws281xConfig.cmake
+    rpi_ws281x-config.cmake
+
+  Add the installation prefix of "rpi_ws281x" to CMAKE_PREFIX_PATH or set
+  "rpi_ws281x_DIR" to a directory containing one of the above files.  If
+  "rpi_ws281x" provides a separate development package or SDK, be sure it has
+  been installed.
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/erick/Desktop/TVAmbilight/cmake-build-debug
