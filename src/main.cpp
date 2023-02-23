@@ -2,8 +2,8 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/core.hpp>
 #include "ws2811/ws2811.h"
-#include <csignal>
-#include <armadillo>
+#include <signal.h>
+#include <unistd.h>
 
 #define LED_COUNT 37
 #define GPIO_PIN 18
