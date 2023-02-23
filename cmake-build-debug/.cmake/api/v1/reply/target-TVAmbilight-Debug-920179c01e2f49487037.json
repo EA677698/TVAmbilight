@@ -11,6 +11,7 @@
 		"commands" : 
 		[
 			"add_executable",
+			"link_directories",
 			"target_link_libraries",
 			"include_directories"
 		],
@@ -32,17 +33,17 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 16,
+				"line" : 12,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 6,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 3,
 				"file" : 0,
 				"line" : 10,
 				"parent" : 0
@@ -61,10 +62,6 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
-					"path" : "/home/erick/Desktop/TVAmbilight/rpi_ws281x"
-				},
-				{
 					"backtrace" : 4,
 					"isSystem" : true,
 					"path" : "/usr/local/include/opencv4"
@@ -75,7 +72,7 @@
 			{
 				"backtraces" : 
 				[
-					2
+					3
 				],
 				"standard" : "14"
 			},
@@ -99,81 +96,91 @@
 				"role" : "flags"
 			},
 			{
+				"backtrace" : 2,
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraryPath"
+			},
+			{
 				"fragment" : "-Wl,-rpath,/usr/local/lib",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_gapi.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_highgui.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_ml.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_objdetect.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_photo.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_stitching.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_video.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_videoio.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
+				"fragment" : "-lws2811",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_imgcodecs.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_dnn.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_calib3d.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_features2d.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_flann.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_imgproc.so.4.7.0",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libopencv_core.so.4.7.0",
 				"role" : "libraries"
 			}

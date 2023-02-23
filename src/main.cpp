@@ -4,7 +4,7 @@
 #include "ws2811/ws2811.h"
 #include <signal.h>
 
-#define LED_COUNT 10
+#define LED_COUNT 37
 #define CAPTURE_CARD_ID 0
 #define GPIO_PIN 18
 #define DMA 10
@@ -39,41 +39,36 @@ ws2811_t led_strip =
 
         };
 
-void sig_kill_handler(int signum){
+VideoCapture rca;
+
+void sig_kill_handler(int signum) {
     printf("Process closing...");
     ws2811_fini(&led_strip);
+    rca.release();
+    if(!rca.isOpened()){
+        printf("Video stream closed successfully!");
+    } else{
+        fprintf(stderr,"Failed to close video stream!");
+    }
     printf("Process ended");
 }
 
-void setBrightness(int b)
-{
-    if(b>0 && b<256) {
-        led_strip.channel[0].brightness = b;
-    } else{
-        printf("Error: integer must be within range [0-255]");
-    }
-    return;
+void setBrightness(unsigned short b) {
+    led_strip.channel[0].brightness = b;
 }
 
-void setPixelColorRGB(int pixel, int r, int g, int b)
-{
-    if(b>0 && b<256) {
-        if(pixel<LED_COUNT && pixel >=0) {
-            led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
-        } else{
-            printf("Error: pixel must be within range [0-%d]",LED_COUNT);
-        }
-    } else{
-        printf("Error: color integer must be within range [0-255]");
+void setPixelColorRGB(int pixel, unsigned short r, unsigned short g, unsigned short b) {
+    if (pixel < LED_COUNT && pixel >= 0) {
+        led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
+    } else {
+        fprintf(stderr,"Error: pixel must be within range [0-%d]", LED_COUNT);
     }
-    return;
 }
 
 int main(int argc, char **argv) {
-    signal(SIGKILL,sig_kill_handler);
+    signal(SIGINT, sig_kill_handler);
     ws2811_init(&led_strip);
     Mat frame;
-    VideoCapture rca;
     rca.open(CAPTURE_CARD_ID, CAP_ANY);
     if (!rca.isOpened()) {
         fprintf(stderr, "Unable to open device ID: %d", CAPTURE_CARD_ID);
@@ -82,7 +77,6 @@ int main(int argc, char **argv) {
     rca.read(frame);
     const unsigned short rows = frame.rows;
     const unsigned short cols = frame.cols;
-    NeoPixel ambilight(LED_COUNT);
     int skip = ((cols * 2) + (rows * 2)) / LED_COUNT;
     int lengths = LED_COUNT / 4;
 
@@ -94,17 +88,17 @@ int main(int argc, char **argv) {
         }
         for (int i = skip; i < cols; i += skip) {
             temp = frame.ptr<unsigned char>(0, i);
-            ambilight.setPixelColor(i - 4, temp[0], temp[1], temp[2]);
+            setPixelColorRGB(i - 4, temp[0], temp[1], temp[2]);
             temp = frame.ptr<unsigned char>(rows - 1, i);
-            ambilight.setPixelColor((lengths * 2) + (i - 4), temp[0], temp[1], temp[2]);
+            setPixelColorRGB((lengths * 2) + (i - 4), temp[0], temp[1], temp[2]);
         }
         for (int i = skip; i < rows; i += skip) {
             temp = frame.ptr<unsigned char>(i, 0);
-            ambilight.setPixelColor(lengths + (i - 4), temp[0], temp[1], temp[2]);
+            setPixelColorRGB(lengths + (i - 4), temp[0], temp[1], temp[2]);
             temp = frame.ptr<unsigned char>(i, cols - 1);
-            ambilight.setPixelColor((lengths * 3) + (i - 4), temp[0], temp[1], temp[2]);
+            setPixelColorRGB((lengths * 3) + (i - 4), temp[0], temp[1], temp[2]);
         }
-        ambilight.clear();
+        ws2811_render(&led_strip);
         rca.read(frame);
 
     }
