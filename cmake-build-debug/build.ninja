@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_TVAmbilight: phony || CMakeFiles/TVAmbil
 
 build CMakeFiles/TVAmbilight.dir/src/main.cpp.o: CXX_COMPILER__TVAmbilight_Debug /home/erick/Desktop/TVAmbilight/src/main.cpp || cmake_object_order_depends_target_TVAmbilight
   DEP_FILE = CMakeFiles/TVAmbilight.dir/src/main.cpp.o.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++14
   INCLUDES = -isystem /usr/local/include/opencv4
   OBJECT_DIR = CMakeFiles/TVAmbilight.dir
   OBJECT_FILE_DIR = CMakeFiles/TVAmbilight.dir/src

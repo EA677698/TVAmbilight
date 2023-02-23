@@ -5,7 +5,6 @@
 #include <signal.h>
 
 #define LED_COUNT 37
-#define CAPTURE_CARD_ID 0
 #define GPIO_PIN 18
 #define DMA 10
 #define RGB_ORDER WS2811_STRIP_GRB
@@ -66,12 +65,13 @@ void setPixelColorRGB(int pixel, unsigned short r, unsigned short g, unsigned sh
 }
 
 int main(int argc, char **argv) {
+    char* deviceID = *argv;
     signal(SIGINT, sig_kill_handler);
     ws2811_init(&led_strip);
     Mat frame;
-    rca.open(CAPTURE_CARD_ID, CAP_ANY);
+    rca.open(deviceID, CAP_ANY);
     if (!rca.isOpened()) {
-        fprintf(stderr, "Unable to open device ID: %d", CAPTURE_CARD_ID);
+        fprintf(stderr, "Unable to open device ID: %s", deviceID);
         return 1;
     }
     rca.read(frame);
