@@ -2,7 +2,8 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/core.hpp>
 #include "ws2811/ws2811.h"
-#include <signal.h>
+#include <csignal>
+#include <armadillo>
 
 #define LED_COUNT 37
 #define GPIO_PIN 18
@@ -41,15 +42,15 @@ ws2811_t led_strip =
 VideoCapture rca;
 
 void sig_kill_handler(int signum) {
-    printf("Process closing...");
+    printf("Process closing...\n");
     ws2811_fini(&led_strip);
     rca.release();
     if(!rca.isOpened()){
-        printf("Video stream closed successfully!");
+        printf("Video stream closed successfully!\n");
     } else{
-        fprintf(stderr,"Failed to close video stream!");
+        fprintf(stderr,"Failed to close video stream!\n");
     }
-    printf("Process ended");
+    printf("Process ended\n");
 }
 
 void setBrightness(unsigned short b) {
@@ -60,7 +61,7 @@ void setPixelColorRGB(int pixel, unsigned short r, unsigned short g, unsigned sh
     if (pixel < LED_COUNT && pixel >= 0) {
         led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
     } else {
-        fprintf(stderr,"Error: pixel must be within range [0-%d]", LED_COUNT);
+        fprintf(stderr,"Error: pixel must be within range [0-%d]\n", LED_COUNT);
     }
 }
 
@@ -71,21 +72,33 @@ int main(int argc, char **argv) {
     Mat frame;
     rca.open(deviceID, CAP_ANY);
     if (!rca.isOpened()) {
-        fprintf(stderr, "Unable to open device ID: %s", deviceID);
-        return 1;
+        fprintf(stderr, "Unable to open device ID: %s\n", deviceID);
+        if(kill(getpid(),SIGINT)){
+            fprintf(stderr,"Failed to send signal, forcefully quitting...\n");
+            return 1;
+        }
     }
     rca.read(frame);
     const unsigned short rows = frame.rows;
     const unsigned short cols = frame.cols;
     int skip = ((cols * 2) + (rows * 2)) / LED_COUNT;
     int lengths = LED_COUNT / 4;
-
+    char attempts = 0;
     unsigned char *temp;
     while (1) {
         if (frame.empty()) {
-            fprintf(stderr, "missing frame");
+            fprintf(stderr, "Missing frame\n");
+            attempts++;
+            if(attempts>=32){
+                fprintf(stderr,"Too many frame retrieval attempts failed! Exiting program...\n");
+                if(kill(getpid(),SIGINT)){
+                    fprintf(stderr,"Failed to send signal, forcefully quitting...\n");
+                    return 1;
+                }
+            }
             continue;
         }
+        attempts = 0;
         for (int i = skip; i < cols; i += skip) {
             temp = frame.ptr<unsigned char>(0, i);
             setPixelColorRGB(i - 4, temp[0], temp[1], temp[2]);
