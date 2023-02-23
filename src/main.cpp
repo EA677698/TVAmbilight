@@ -42,15 +42,16 @@ ws2811_t led_strip =
 VideoCapture rca;
 
 void sig_kill_handler(int signum) {
-    printf("Process closing...\n");
+    printf("\nProcess closing...\n");
     ws2811_fini(&led_strip);
     rca.release();
     if(!rca.isOpened()){
         printf("Video stream closed successfully!\n");
     } else{
-        fprintf(stderr,"Failed to close video stream!\n");
+        fprintf(stderr,"Error: Failed to close video stream!\n");
     }
-    printf("Process ended\n");
+    printf("Process gracefully closed\n");
+    exit(0);
 }
 
 void setBrightness(unsigned short b) {
@@ -61,38 +62,39 @@ void setPixelColorRGB(int pixel, unsigned short r, unsigned short g, unsigned sh
     if (pixel < LED_COUNT && pixel >= 0) {
         led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
     } else {
-        fprintf(stderr,"Error: pixel must be within range [0-%d]\n", LED_COUNT);
+        fprintf(stderr,"Error: pixel must be within range [0-%d]\n"
+                       "Given pixel: %d\n", LED_COUNT, pixel);
     }
 }
 
 int main(int argc, char **argv) {
-    char* deviceID = *argv;
+    char* deviceID = *(argv+1);
     signal(SIGINT, sig_kill_handler);
     ws2811_init(&led_strip);
     Mat frame;
     rca.open(deviceID, CAP_ANY);
     if (!rca.isOpened()) {
-        fprintf(stderr, "Unable to open device ID: %s\n", deviceID);
+        fprintf(stderr, "Error: Unable to open device ID: %s\n", deviceID);
         if(kill(getpid(),SIGINT)){
-            fprintf(stderr,"Failed to send signal, forcefully quitting...\n");
+            fprintf(stderr,"Error: Failed to send signal, forcefully quitting...\n");
             return 1;
         }
     }
     rca.read(frame);
     const unsigned short rows = frame.rows;
     const unsigned short cols = frame.cols;
-    int skip = ((cols * 2) + (rows * 2)) / LED_COUNT;
+    int skip = ((cols * rows) - ((cols - 2) * (rows - 2))) / LED_COUNT;
     int lengths = LED_COUNT / 4;
     char attempts = 0;
     unsigned char *temp;
     while (1) {
         if (frame.empty()) {
-            fprintf(stderr, "Missing frame\n");
+            fprintf(stderr, "Error: Missing frame\n");
             attempts++;
             if(attempts>=32){
-                fprintf(stderr,"Too many frame retrieval attempts failed! Exiting program...\n");
+                fprintf(stderr,"Error: Too many frame retrieval attempts failed! Exiting program...\n");
                 if(kill(getpid(),SIGINT)){
-                    fprintf(stderr,"Failed to send signal, forcefully quitting...\n");
+                    fprintf(stderr,"Error: Failed to send signal, forcefully quitting...\n");
                     return 1;
                 }
             }
