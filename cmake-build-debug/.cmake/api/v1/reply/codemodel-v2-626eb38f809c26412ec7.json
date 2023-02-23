@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/erick/Desktop/TVAmbilight/cmake-build-debug",
-		"source" : "/home/erick/Desktop/TVAmbilight"
+		"build" : "/home/erickalanis/Desktop/TVAmbilight/cmake-build-debug",
+		"source" : "/home/erickalanis/Desktop/TVAmbilight"
 	},
 	"version" : 
 	{
