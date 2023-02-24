@@ -6,7 +6,6 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.18"
@@ -39,7 +38,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TVAmbilight::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TVAmbilight-Debug-c7783464eb2d74a28baa.json",
+					"jsonFile" : "target-TVAmbilight-Debug-73415bda068af4e0f79b.json",
 					"name" : "TVAmbilight",
 					"projectIndex" : 0
 				}
@@ -49,12 +48,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/erickalanis/Desktop/TVAmbilight/cmake-build-debug",
-		"source" : "/home/erickalanis/Desktop/TVAmbilight"
+		"build" : "/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug",
+		"source" : "/mnt/c/Users/Erick/Desktop/TVAmbilight"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 2
 	}
 }
