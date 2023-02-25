@@ -33,7 +33,7 @@
 						"gcc_s"
 					]
 				},
-				"path" : "/usr/bin/cc",
+				"path" : "arm-linux-gnueabihf-gcc",
 				"version" : "9.4.0"
 			},
 			"language" : "C",
@@ -79,7 +79,7 @@
 						"gcc"
 					]
 				},
-				"path" : "/usr/bin/c++",
+				"path" : "arm-linux-gnueabihf-g++",
 				"version" : "9.4.0"
 			},
 			"language" : "CXX",

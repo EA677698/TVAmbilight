@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TVAmbilight.dir/src/main.cpp.o"
-  "CMakeFiles/TVAmbilight.dir/src/main.cpp.o.d"
   "TVAmbilight"
   "TVAmbilight.pdb"
 )

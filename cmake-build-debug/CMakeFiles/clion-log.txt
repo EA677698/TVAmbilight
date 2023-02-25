@@ -1,6 +1,6 @@
-C:\WINDOWS\system32\wsl.exe --distribution Ubuntu --exec /bin/bash -c "export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug && /home/erick/cmake-3.20.6/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G 'CodeBlocks - Unix Makefiles' /mnt/c/Users/Erick/Desktop/TVAmbilight; exitcode=$?; sleep 0.001; (exit $exitcode)"
--- The C compiler identification is GNU 9.4.0
--- The CXX compiler identification is GNU 9.4.0
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /tmp/tmp.l6p4FyvBCV
+-- The C compiler identification is GNU 10.2.1
+-- The CXX compiler identification is GNU 10.2.1
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Check for working C compiler: /usr/bin/cc - skipped
@@ -14,4 +14,4 @@ C:\WINDOWS\system32\wsl.exe --distribution Ubuntu --exec /bin/bash -c "export CL
 -- Found OpenCV: /usr/local (found version "4.6.0") 
 -- Configuring done
 -- Generating done
--- Build files have been written to: /mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug
+-- Build files have been written to: /tmp/tmp.l6p4FyvBCV/cmake-build-debug

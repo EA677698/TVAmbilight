@@ -5,102 +5,102 @@
 		<Option title="TVAmbilight"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\opencv4\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\local\;CMake Files\..\..\usr\local\lib\;CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\;CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\;CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\opencv4\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug"/>
+				<Option working_dir="/tmp/tmp.l6p4FyvBCV/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug"/>
+				<Option working_dir="/tmp/tmp.l6p4FyvBCV/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/tmp/tmp.l6p4FyvBCV/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="TVAmbilight">
-				<Option output="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/TVAmbilight" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug"/>
+				<Option output="/tmp/tmp.l6p4FyvBCV/cmake-build-debug/TVAmbilight" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.l6p4FyvBCV/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/usr/local/include/opencv4"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/arm-linux-gnueabihf/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/arm-linux-gnueabihf/10/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include/arm-linux-gnueabihf"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 TVAmbilight"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 TVAmbilight"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="TVAmbilight/fast">
-				<Option output="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/TVAmbilight" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug"/>
+				<Option output="/tmp/tmp.l6p4FyvBCV/cmake-build-debug/TVAmbilight" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.l6p4FyvBCV/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/usr/local/include/opencv4"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/arm-linux-gnueabihf/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/arm-linux-gnueabihf/10/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include/arm-linux-gnueabihf"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 TVAmbilight/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/Erick/Desktop/TVAmbilight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 TVAmbilight/fast"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.l6p4FyvBCV/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/src/main.cpp">
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/src/main.cpp">
 			<Option target="TVAmbilight"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/CMakeLists.txt">
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/../../../../../../usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\opencv4\"/>
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/../../usr/local/lib/arm-linux-gnueabihf/cmake/opencv4/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\opencv4\"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/../../../../../../usr/local/lib/cmake/opencv4/OpenCVConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\opencv4\"/>
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/../../usr/local/lib/arm-linux-gnueabihf/cmake/opencv4/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\opencv4\"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/../../../../../../usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\opencv4\"/>
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/../../usr/local/lib/arm-linux-gnueabihf/cmake/opencv4/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\opencv4\"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/Erick/Desktop/TVAmbilight/../../../../../../usr/local/lib/cmake/opencv4/OpenCVModules.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\opencv4\"/>
+		<Unit filename="/tmp/tmp.l6p4FyvBCV/../../usr/local/lib/arm-linux-gnueabihf/cmake/opencv4/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\local\lib\arm-linux-gnueabihf\cmake\opencv4\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

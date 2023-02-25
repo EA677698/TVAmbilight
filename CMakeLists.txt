@@ -3,6 +3,11 @@ project(TVAmbilight)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(CMAKE_BUILD_TYPE Debug)
+
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+
 include_directories(/usr/local/include)
 
 find_package(OpenCV REQUIRED)

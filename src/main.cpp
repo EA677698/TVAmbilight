@@ -10,7 +10,7 @@
 #define GPIO_PIN 18
 #define DMA 10
 #define RGB_ORDER WS2811_STRIP_GRB
-#define DEFAULT_REFRESH_RATE 60
+#define CROPPED_LAYERS 20
 
 using namespace std;
 using namespace cv;
@@ -49,23 +49,20 @@ void setBrightness(unsigned short b) {
     led_strip.channel[0].brightness = b;
 }
 
-void setPixelColorRGB(int pixel, unsigned short r, unsigned short g, unsigned short b) {
+void setPixelColorRGB(int pixel, uint8_t r, uint8_t g, uint8_t b) {
     if (pixel < LED_COUNT && pixel >= 0) {
         led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
     } else {
         fprintf(stderr,"Error: pixel must be within range [0-%d]\n"
                        "Given pixel: %d\n", LED_COUNT, pixel);
-//        if(kill(getpid(),SIGINT)){
-//            fprintf(stderr,"Error: Failed to send signal, forcefully quitting...\n");
-//        }
     }
 }
 
 void sig_kill_handler(int signum) {
     printf("\nProcess closing...\n");
-    for(int i = 0; i<LED_COUNT; i++){
-        setPixelColorRGB(i,0,0,0);
-    }
+    memset(led_strip.channel[0].leds,0,LED_COUNT);
+    setBrightness(0);
+    ws2811_render(&led_strip);
     ws2811_fini(&led_strip);
     rca.release();
     if(!rca.isOpened()){
@@ -85,7 +82,6 @@ int main(int argc, char **argv) {
         return 0;
     }
     char* deviceID = *(argv+1);
-    int refresh_rate;
     signal(SIGINT, sig_kill_handler);
     //LED initialization
     ws2811_init(&led_strip);
@@ -98,19 +94,12 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
-    if(argc < 3){
-        refresh_rate = 1000/DEFAULT_REFRESH_RATE;
-        rca.set(CAP_PROP_FPS,DEFAULT_REFRESH_RATE);
-    } else{
-        refresh_rate = 1000/stoi(*(argv+2));
-        rca.set(CAP_PROP_FPS,stoi(*(argv+2)));
-    }
 
-    rca.set(CAP_PROP_FOURCC,VideoWriter::fourcc('Y','U','Y','V'));
+    rca.set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'P', 'E', 'G'));
     rca.read(frame);
-    const unsigned short rows = frame.rows;
-    const unsigned short cols = frame.cols;
-    int skip = (rows*2)+(cols*2) / LED_COUNT;
+    const unsigned short rows = frame.rows - CROPPED_LAYERS;
+    const unsigned short cols = frame.cols - CROPPED_LAYERS;
+    int skip = ((rows*2)+(cols*2)) / LED_COUNT;
     int width,length;
     int *large;
     int *small;
@@ -128,10 +117,10 @@ int main(int argc, char **argv) {
     if((width+length) < LED_COUNT){
         *large += (LED_COUNT - (length+width));
     }
-    printf("cols: %d, rows: %d, large: %d, small: %d",cols,rows,*large,*small);
     char attempts = 0;
-    unsigned char *temp;
+    Vec3b temp;
     int pixel;
+    ws2811_led_t LEDs[LED_COUNT];
     while (1) {
         if (frame.empty()) {
             fprintf(stderr, "Error: Missing frame\n");
@@ -149,30 +138,30 @@ int main(int argc, char **argv) {
         attempts = 0;
         pixel = skip;
         //sets appropriate colors to pixels
-        for (int i = 0; i < (length/2)-1; i++) { // cols
-            temp = frame.ptr<unsigned char>(0, pixel);
-            setPixelColorRGB(i, temp[0], temp[1], temp[2]);
-            temp = frame.ptr<unsigned char>(rows - 1, pixel);
-            setPixelColorRGB(((length/2)+(width/2)) + i, temp[0], temp[1], temp[2]);
+
+        for (int i = 0; i < (length/2); i++) { // cols
+            temp = frame.at<cv::Vec3b>(CROPPED_LAYERS, pixel);
+            setPixelColorRGB(i, temp[2], temp[1], temp[0]);
+            temp = frame.at<cv::Vec3b>(rows - 1 - CROPPED_LAYERS, pixel);
+            setPixelColorRGB(((length/2)+(width/2)) + i, temp[2], temp[1], temp[0]);
             pixel += skip;
-            printf("LOOP 1: Pixels modified: %d, %d",i,((length/2)+(width/2)) + i);
         }
         pixel = skip;
-        for (int i = 0; i < (width/2)-1; i++) { //rows
-            temp = frame.ptr<unsigned char>(pixel, 0);
-            setPixelColorRGB((length/2) + i, temp[0], temp[1], temp[2]);
-            temp = frame.ptr<unsigned char>(pixel, cols - 1);
-            setPixelColorRGB(length + (width/2) + i, temp[0], temp[1], temp[2]);
+        for (int i = 0; i < (width/2); i++) { //rows
+            temp = frame.at<cv::Vec3b>(pixel, CROPPED_LAYERS);
+            setPixelColorRGB((length/2) + i, temp[2], temp[1], temp[0]);
+            temp = frame.at<cv::Vec3b>(pixel, cols - 1 - CROPPED_LAYERS);
+            setPixelColorRGB(length + (width/2) + i, temp[2], temp[1], temp[0]);
             pixel += skip;
-            printf("LOOP 2: Pixels modified: %d, %d",(length/2) + i,length + (width/2) + i);
         }
         //updates LED strip
-        ws2811_render(&led_strip);
+        if (ws2811_render(&led_strip) != WS2811_SUCCESS)
+        {
+            fprintf(stderr, "ws2811_render failed\n");
+            break;
+        }
         //retrieves next frame
         rca.read(frame);
-        //stalls program to meet refresh rate requirement while still allowing openCV to get frames and not time out
-        waitKey(refresh_rate);
-
     }
 
 }
