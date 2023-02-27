@@ -49,18 +49,11 @@ void setBrightness(unsigned short b) {
     led_strip.channel[0].brightness = b;
 }
 
-void setPixelColorRGB(int pixel, uint8_t r, uint8_t g, uint8_t b) {
-    if (pixel < LED_COUNT && pixel >= 0) {
-        led_strip.channel[0].leds[pixel] = (r << 16) | (g << 8) | b;
-    } else {
-        fprintf(stderr,"Error: pixel must be within range [0-%d]\n"
-                       "Given pixel: %d\n", LED_COUNT, pixel);
-    }
-}
+int arraysize = LED_COUNT * sizeof(ws2811_led_t);
 
 void sig_kill_handler(int signum) {
     printf("\nProcess closing...\n");
-    memset(led_strip.channel[0].leds,0,LED_COUNT);
+    memset(led_strip.channel[0].leds,0,arraysize);
     setBrightness(0);
     ws2811_render(&led_strip);
     ws2811_fini(&led_strip);
@@ -86,6 +79,7 @@ int main(int argc, char **argv) {
     //LED initialization
     ws2811_init(&led_strip);
     Mat frame;
+    //rca.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
     rca.open(deviceID, CAP_ANY);
     if (!rca.isOpened()) {
         fprintf(stderr, "Error: Unable to open device ID: %s\n", deviceID);
@@ -94,8 +88,6 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
-
-    rca.set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'P', 'E', 'G'));
     rca.read(frame);
     const unsigned short rows = frame.rows - CROPPED_LAYERS;
     const unsigned short cols = frame.cols - CROPPED_LAYERS;
@@ -112,46 +104,57 @@ int main(int argc, char **argv) {
         large = &width;
         small = &length;
     }
-    *small = LED_COUNT*(1-ratio);
-    *large = LED_COUNT*ratio;
-    if((width+length) < LED_COUNT){
-        *large += (LED_COUNT - (length+width));
+    *small = (LED_COUNT*(1-ratio))/2;
+    *large = (LED_COUNT*ratio)/2;
+    if((2*(width+length)) < LED_COUNT){
+        *large += (LED_COUNT - (2*(length+width)));
     }
     char attempts = 0;
     Vec3b temp;
     int pixel;
-    ws2811_led_t LEDs[LED_COUNT];
+    int row2 = rows - 1 - CROPPED_LAYERS;
+    int cols2 = cols - 1 - CROPPED_LAYERS;
+    int widthlength = length+ width;
+    int thirdsection = (2 * length) + width;
     while (1) {
         if (frame.empty()) {
             fprintf(stderr, "Error: Missing frame\n");
-            attempts++;
-            //auto killer
-            if(attempts>=32){
-                fprintf(stderr,"Error: Too many frame retrieval attempts failed! Exiting program...\n");
-                if(kill(getpid(),SIGINT)){
-                    fprintf(stderr,"Error: Failed to send signal, forcefully quitting...\n");
-                    return 1;
-                }
-            }
+//            attempts++;
+//            //auto killer
+//            if(attempts>=32){
+//                fprintf(stderr,"Error: Too many frame retrieval attempts failed! Exiting program...\n");
+//                if(kill(getpid(),SIGINT)){
+//                    fprintf(stderr,"Error: Failed to send signal, forcefully quitting...\n");
+//                    return 1;
+//                }
+//            }
             continue;
         }
         attempts = 0;
         pixel = skip;
         //sets appropriate colors to pixels
-
-        for (int i = 0; i < (length/2); i++) { // cols
+        for (int i = 0; i < length - 1; i+=2) { // cols
             temp = frame.at<cv::Vec3b>(CROPPED_LAYERS, pixel);
-            setPixelColorRGB(i, temp[2], temp[1], temp[0]);
-            temp = frame.at<cv::Vec3b>(rows - 1 - CROPPED_LAYERS, pixel);
-            setPixelColorRGB(((length/2)+(width/2)) + i, temp[2], temp[1], temp[0]);
+            led_strip.channel[0].leds[i] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
+            temp = frame.at<cv::Vec3b>(row2, pixel);
+            led_strip.channel[0].leds[widthlength + i] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
             pixel += skip;
+            temp = frame.at<cv::Vec3b>(CROPPED_LAYERS, pixel);
+            led_strip.channel[0].leds[i + 1] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
+            temp = frame.at<cv::Vec3b>(row2, pixel);
+            led_strip.channel[0].leds[widthlength + i + 1] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
         }
         pixel = skip;
-        for (int i = 0; i < (width/2); i++) { //rows
+        for (int i = 0; i < width-1; i += 2) { //rows
             temp = frame.at<cv::Vec3b>(pixel, CROPPED_LAYERS);
-            setPixelColorRGB((length/2) + i, temp[2], temp[1], temp[0]);
-            temp = frame.at<cv::Vec3b>(pixel, cols - 1 - CROPPED_LAYERS);
-            setPixelColorRGB(length + (width/2) + i, temp[2], temp[1], temp[0]);
+            led_strip.channel[0].leds[length + i] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
+            temp = frame.at<cv::Vec3b>(pixel, cols2);
+            led_strip.channel[0].leds[thirdsection + i] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
+            pixel += skip;
+            temp = frame.at<cv::Vec3b>(pixel, CROPPED_LAYERS);
+            led_strip.channel[0].leds[length + i + 1] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
+            temp = frame.at<cv::Vec3b>(pixel, cols2);
+            led_strip.channel[0].leds[thirdsection + i + 1] = (temp[2] << 16) | (temp[1] << 8) | temp[0];
             pixel += skip;
         }
         //updates LED strip
